@@ -23,6 +23,7 @@ public class RekursiveDreiecke extends Thread {
         vp.line(x2, y2, x3, y3, 0, 0, 0);
     }
 
+
     private static void drawLine(ViewPort vp, int width, int x1, int y1) {
         vp.line(x1, y1, x1 + width, y1, 0, 0, 0);
     }
@@ -42,6 +43,7 @@ public class RekursiveDreiecke extends Thread {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+
     /**
      * Recursive function that prioritizes top, right. left (in that order).
      * Draw calls are converted to ints, function runs on doubles. This enhances draw precision.
@@ -57,6 +59,7 @@ public class RekursiveDreiecke extends Thread {
 
         if (distance(x1, y1, x2, y2) >= 2){
             drawTriangle(vp, (int) x1, (int) y1, (int) x2, (int) y2, (int) x3, (int) y3);
+
             // top
             drawTriangleRecursive(
                                                vp,
@@ -94,18 +97,13 @@ public class RekursiveDreiecke extends Thread {
     public static void drawFunnyTriangles() {
         int width = 800;
         int height = 600;
-        int h = height;
-        int w = width;
         ViewPort vp = new ViewPort("Dreiecke", width, height);
-        drawTriangle(vp, 0, h, w, h, w / 2, 0);
-        drawTriangleRecursive(vp, w/4, h/2, w/2+w/4, h/2, w/2, h);
+        drawTriangle(vp, 0, height, width, height, width/2, 0);
+        drawTriangleRecursive(vp, width/4, height/2, width/2 + width/4, height/2, width/2, height);
     }
 
 
     public static void main(String[] a) {
         drawFunnyTriangles();
     }
-
-
-
 }
