@@ -1,10 +1,5 @@
 package Aufgabe1;
 
-import Aufgabe1.ViewPort;
-
-import java.awt.*;
-
-
 public class RekursiveDreiecke extends Thread {
 
     /**
@@ -24,18 +19,12 @@ public class RekursiveDreiecke extends Thread {
     }
 
 
-    private static void drawLine(ViewPort vp, int width, int x1, int y1) {
-        vp.line(x1, y1, x1 + width, y1, 0, 0, 0);
-    }
-
-
     /**
      * Berechnet die Distanz zwischen zwei gegebenen Punkten.
      * @param x1 x-Koordinate des 1. Punkts.
      * @param y1 y-Koordinate des 1. Punkts.
      * @param x2 x-Koordinate des 2. Punkts.
      * @param y2 y-Koordinate des 2. Punkts.
-     * @return
      */
     private static double distance(double x1, double y1, double x2, double y2) {
         double dx = x2 - x1;
