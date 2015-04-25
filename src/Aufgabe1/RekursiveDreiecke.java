@@ -84,8 +84,8 @@ public class RekursiveDreiecke extends Thread {
 
 
     public static void drawFunnyTriangles() {
-        int width = 800;
-        int height = 600;
+        int width = 1600;
+        int height = 1200;
         ViewPort vp = new ViewPort("Dreiecke", width, height);
         drawTriangle(vp, 0, height, width, height, width/2, 0);
         drawTriangleRecursive(vp, width/4, height/2, width/2 + width/4, height/2, width/2, height);
