@@ -46,15 +46,6 @@ public class TuermeVonHanoi {
         }
     }
     
-    public void bewege(int zahl, int quelle, int cache, int ziel) {
-        System.out.println(cache);
-        if (zahl > -1) {
-            bewege(zahl-1, quelle, ziel, cache);
-            sStapel[quelle].verschiebeObersteScheibeNach(sStapel[ziel]);
-            bewege(zahl-1, cache, quelle, ziel);
-        }
-    }
-    
     public ViewPort getViewPort() {
         return window;
     }
@@ -62,8 +53,6 @@ public class TuermeVonHanoi {
     public static void main(String[] a) {
         TuermeVonHanoi t = new TuermeVonHanoi(10, 800, 600);
         t.draw();
-        // t.bewege(9, 0, 2, 1);
         t.verschiebe(0, 9, 1);
     }
-    
 }
