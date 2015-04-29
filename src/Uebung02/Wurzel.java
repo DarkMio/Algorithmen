@@ -1,4 +1,4 @@
-package Aufgabe02;
+package Uebung02;
 
 public class Wurzel {
 

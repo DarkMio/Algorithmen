@@ -1,4 +1,4 @@
-package simplevisuals;
+package Uebung02.simplevisuals;
 
 import java.awt.Color;
 import java.awt.Dimension;

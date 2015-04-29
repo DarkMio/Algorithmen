@@ -1,4 +1,6 @@
-package Aufgabe1;
+package Uebung01;
+
+import misc.simplevisuals.ViewPort;
 
 public class RekursiveDreiecke extends Thread {
 

@@ -1,8 +1,8 @@
-package hanoi;
+package Uebung02.hanoi;
 
 import java.awt.Color;
 
-import simplevisuals.ViewPort;
+import misc.simplevisuals.ViewPort;
 
 public class ScheibenStapel {
 

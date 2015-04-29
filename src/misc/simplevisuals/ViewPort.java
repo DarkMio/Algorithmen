@@ -1,4 +1,4 @@
-package simplevisuals;
+package misc.simplevisuals;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -108,7 +108,7 @@ public class ViewPort  {
      * @param height Die Höhe des erzeugten Fensters.
      */
     public ViewPort(String title, int width, int height) {
-        this(title, width, height, (screenSize.width - width) / 2, (screenSize.height -height) /2);
+        this(title, width, height, (screenSize.width - width) / 2, (screenSize.height - height) / 2);
     }
     
     
@@ -185,7 +185,7 @@ public class ViewPort  {
     public void clearViewPort() {
         byte[] backbuf = ((DataBufferByte) background.getRaster().getDataBuffer()).getData();
         byte[] viewPortbuf = ((DataBufferByte) preparationBuffer.getRaster().getDataBuffer()).getData();
-        System.arraycopy(backbuf, 0, viewPortbuf , 0, backbuf.length);
+        System.arraycopy(backbuf, 0, viewPortbuf, 0, backbuf.length);
     }
 
 
@@ -223,9 +223,8 @@ public class ViewPort  {
         drawColorMode(g);
     }
 
-
     private void drawColorMode(Graphics g) {
-        g.drawImage(viewPort, 0,0,null);
+        g.drawImage(viewPort, 0, 0, null);
     }
 
 
@@ -247,7 +246,54 @@ public class ViewPort  {
         }
     }
 
-    
+    private Color kompromissFarbe(Color[] colorArray, int abst, boolean random) {
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        // luminosity to keep color persistant
+        int y = (int) (0.33 * r + 0.5 * g + 0.16 * b);
+        for(Color c: colorArray) {
+            if (c.getRGB() == -1) {
+                continue;
+            }
+            r += c.getRed();
+            g += c.getGreen();
+            b += c.getBlue();
+        }
+        int rand = 0;
+        if (random) {
+            rand = random(abst);
+        }
+        r = r/colorArray.length + rand;
+        g = g/colorArray.length + rand;
+        b = b/colorArray.length + rand;
+        r = r + random(5);
+        g = g + random(5);
+        b = b + random(5);
+        return new Color(bounds(r), bounds(g), bounds(b));
+    }
+
+    private int random(int abst) {
+        int random = (int) ((Math.random() * (125 - -125)+ -125) * abst/100) ;
+        return random;
+        /*
+        *  255 max
+        *  0.01 * abst = 0 ... 255 (0 <= abst <= 100)
+        *  Generate random number between -1 ... 1
+        *  yields a random number between -255 ... 255
+        */
+        // return (int) (255 * 0.01 * (Math.random() * 2 - 1)) * abst;
+    }
+
+    private int bounds(int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (i > 255) {
+            return 255;
+        }
+        return i;
+    }
     /* ------------------------- Private Klassen und Interfaces ----------------------- */
 
     private class ViewPortalWindowListener implements WindowListener {
@@ -344,6 +390,82 @@ public class ViewPort  {
 
     private void setPix(int x, int y, int r, int g, int b) {
         drawPix(x, y, r, g, b);
+    }
+
+    public void fill(int x1, int y1, int x2, int y2) {
+        int ym = (y1+y2)/2;
+        int xm = (x1+x2)/2;
+        setBackgroundColor(Color.WHITE);
+        setPix(x1, y1, 0, 0, 255);
+        setPix(x2, y1, 0, 0, 255);
+        setPix(x1, y2, 0, 255, 255);
+        setPix(x2, y2, 0, 255, 255);
+
+        setPix(xm, ym, 255, 0, 0);
+        setPix(x1, ym, 255, 255, 0);
+        setPix(xm, y1, 255, 255, 0);
+        setPix(x2, ym, 255, 0, 255);
+        setPix(xm, y2, 255, 0, 255);
+        fillRek(x1, y1, x2, y2);
+    }
+
+    public void fillRek(int x1, int y1, int x2, int y2) {
+        boolean random = true;
+        if (x2-x1 < 50 || y2 - y1 < 50) {
+            random = false;
+        }
+        if (x2-x1 < 2 && y2 - y1 < 2) return;
+
+
+        int xm = (x1+x2)/2;
+        int ym = (y1+y2)/2;
+        final int abst = 25;
+
+        if (getPix(xm, y1).getRGB() == -1) {
+            Color c = kompromissFarbe(new Color[]{getPix(x1, y1), getPix(x2, y1)}, abst, random);
+            setPix(xm, y1, c.getRed(), c.getBlue(), c.getGreen());
+        }
+        if (getPix(x1, ym).getRGB() == -1) {
+            Color c = kompromissFarbe(new Color[]{getPix(x1, y1), getPix(x1, y2)}, abst, random);
+            setPix(x1, ym, c.getRed(), c.getBlue(), c.getGreen());
+        }
+        if (getPix(x2, ym).getRGB() == -1) {
+            Color c = kompromissFarbe(new Color[]{getPix(x2, y1), getPix(x2, y2)}, abst, random);
+            setPix(x2, ym, c.getRed(), c.getBlue(), c.getGreen());
+        }
+        if (getPix(xm, y2).getRGB() == -1) {
+            Color c = kompromissFarbe(new Color[]{getPix(x1, y2), getPix(x2, y2)}, abst, random);
+            setPix(xm, y2, c.getRed(), c.getBlue(), c.getGreen());
+        }
+
+        if (getPix(xm, ym).getRGB() == -1) {
+            Color c = kompromissFarbe(
+                    new Color[]{
+                            getPix(x1, y1),
+                            getPix(xm, y1),
+                            getPix(x2, y2),
+                            getPix(x1, ym),
+                            getPix(x2, ym),
+                            getPix(x1, y2),
+                            getPix(xm, y2),
+                            getPix(x2, y1)
+                    }, abst, random);
+            setPix(xm, ym, c.getRed(), c.getBlue(), c.getGreen());
+        }
+
+        copyBackgroundBuffer();
+/*      Boring ass renderer:*/
+        fillRek(x1, y1, xm, ym);
+        fillRek(xm, y1, x2, ym);
+        fillRek(x1, ym, xm, y2);
+        fillRek(xm, ym, x2, y2);
+
+/*      Funky ass renderer:
+        fillRek(xm, ym, x2, y2);
+        fillRek(x1, y1, xm, ym);
+        fillRek(xm, y1, x2, ym);
+        fillRek(x1, ym, xm, y2);
+*/
     }
 
     public void line(int x1, int y1, int x2, int y2, int r, int g, int b) {

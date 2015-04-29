@@ -1,4 +1,4 @@
-package Aufgabe1;
+package Uebung01;
 
 /**
  * Created by Mio on 15.04.2015.
