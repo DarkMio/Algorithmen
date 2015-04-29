@@ -10,11 +10,7 @@ public class a01 {
     }
 
     public static String concatPow(String w, int k) {
-        if (k <= 0) {
-            return "";
-        } else {
-            w = w + concatPow(w, k-1);
-        }
-        return w;
+        if (k <= 0) return "";
+        else return w + concatPow(w, k-1);
     }
 }
