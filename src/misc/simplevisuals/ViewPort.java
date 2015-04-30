@@ -246,23 +246,26 @@ public class ViewPort  {
         }
     }
 
+    /**
+     * @param colorArray an array with colors
+     * @param abst randomness factor
+     * @param random if randomness should be applied
+     * @return
+     */
     private Color kompromissFarbe(Color[] colorArray, int abst, boolean random) {
         int r = 0;
         int g = 0;
         int b = 0;
-        // luminosity to keep color persistant
-        int y = (int) (0.33 * r + 0.5 * g + 0.16 * b);
+        int rand = 0;
+        // if random true: apply randomness.
+        if (random) {
+            rand = random(abst);
+        }
         for(Color c: colorArray) {
-            if (c.getRGB() == -1) {
-                continue;
-            }
+            if (c.getRGB() == -1) continue;
             r += c.getRed();
             g += c.getGreen();
             b += c.getBlue();
-        }
-        int rand = 0;
-        if (random) {
-            rand = random(abst);
         }
         r = r/colorArray.length + rand;
         g = g/colorArray.length + rand;
@@ -273,16 +276,12 @@ public class ViewPort  {
         return new Color(bounds(r), bounds(g), bounds(b));
     }
 
+    /**
+     * @param abst percentage return value
+     * @return integer between -125 ... 125
+     */
     private int random(int abst) {
-        int random = (int) ((Math.random() * (125 - -125)+ -125) * abst/100) ;
-        return random;
-        /*
-        *  255 max
-        *  0.01 * abst = 0 ... 255 (0 <= abst <= 100)
-        *  Generate random number between -1 ... 1
-        *  yields a random number between -255 ... 255
-        */
-        // return (int) (255 * 0.01 * (Math.random() * 2 - 1)) * abst;
+        return (int) ((Math.random() * (125 - -125)+ -125) * abst/100);
     }
 
     private int bounds(int i) {
@@ -392,6 +391,10 @@ public class ViewPort  {
         drawPix(x, y, r, g, b);
     }
 
+    public void setPix(int x, int y, Color c) {
+        setPix(x, y, c.getRed(), c.getBlue(), c.getGreen());
+    }
+
     public void fill(int x1, int y1, int x2, int y2) {
         int ym = (y1+y2)/2;
         int xm = (x1+x2)/2;
@@ -408,14 +411,25 @@ public class ViewPort  {
         setPix(xm, y2, 255, 0, 255);
         fillRek(x1, y1, x2, y2);
     }
+    public void fillAlt(int x1, int y1, int x2, int y2) {
+        int ym = (y1+y2)/2;
+        int xm = (x1+x2)/2;
+        setBackgroundColor(Color.WHITE);
+        setPix(x1, y1, 0, 125, 125);
+        setPix(x2, y1, 0, 125, 125);
+        setPix(x1, y2, 0, 125, 125);
+        setPix(x2, y2, 0, 125, 125);
+
+        setPix(xm, ym, 255, 0, 0);
+        fillRek(x1, y1, x2, y2);
+    }
 
     public void fillRek(int x1, int y1, int x2, int y2) {
-        boolean random = true;
-        if (x2-x1 < 50 || y2 - y1 < 50) {
-            random = false;
-        }
+        // Abbruchbedingung:
         if (x2-x1 < 2 && y2 - y1 < 2) return;
 
+        boolean random = true;
+        if (x2-x1 < rawSize.width/16 || y2 - y1 < rawSize.height/12) random = false;
 
         int xm = (x1+x2)/2;
         int ym = (y1+y2)/2;
@@ -423,19 +437,19 @@ public class ViewPort  {
 
         if (getPix(xm, y1).getRGB() == -1) {
             Color c = kompromissFarbe(new Color[]{getPix(x1, y1), getPix(x2, y1)}, abst, random);
-            setPix(xm, y1, c.getRed(), c.getBlue(), c.getGreen());
+            setPix(xm, y1, c);
         }
         if (getPix(x1, ym).getRGB() == -1) {
             Color c = kompromissFarbe(new Color[]{getPix(x1, y1), getPix(x1, y2)}, abst, random);
-            setPix(x1, ym, c.getRed(), c.getBlue(), c.getGreen());
+            setPix(x1, ym, c);
         }
         if (getPix(x2, ym).getRGB() == -1) {
             Color c = kompromissFarbe(new Color[]{getPix(x2, y1), getPix(x2, y2)}, abst, random);
-            setPix(x2, ym, c.getRed(), c.getBlue(), c.getGreen());
+            setPix(x2, ym, c);
         }
         if (getPix(xm, y2).getRGB() == -1) {
             Color c = kompromissFarbe(new Color[]{getPix(x1, y2), getPix(x2, y2)}, abst, random);
-            setPix(xm, y2, c.getRed(), c.getBlue(), c.getGreen());
+            setPix(xm, y2, c);
         }
 
         if (getPix(xm, ym).getRGB() == -1) {
@@ -450,7 +464,7 @@ public class ViewPort  {
                             getPix(xm, y2),
                             getPix(x2, y1)
                     }, abst, random);
-            setPix(xm, ym, c.getRed(), c.getBlue(), c.getGreen());
+            setPix(xm, ym, c);
         }
 
         copyBackgroundBuffer();
