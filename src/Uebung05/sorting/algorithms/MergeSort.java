@@ -2,6 +2,7 @@ package Uebung05.sorting.algorithms;
 
 import Uebung05.sorting.Container;
 import Uebung05.sorting.SortingAlgorithm;
+import Uebung05.sorting.SortingObject;
 
 public class MergeSort extends SortingAlgorithm {
 
@@ -24,9 +25,9 @@ public class MergeSort extends SortingAlgorithm {
 
         for(int i = 0; i < half; i++) {
             x.set(i, s.get(i));
-            y.set(i, s.get(i+half+j));
+            y.set(i, s.get(i+half));
         }
-        y.set(j + half-1, s.get(s.getSize() - 1));
+        y.set(y.getSize()-1, s.get(s.getSize() - 1));
         x = mergeSort(x);
         y = mergeSort(y);
         s = merge(x, y);
@@ -34,27 +35,33 @@ public class MergeSort extends SortingAlgorithm {
     }
 
     private Container merge(Container x, Container y) {
-        System.out.println(x.getSize() + " " + y.getSize());
         int size_x = x.getSize();
         int size_y = y.getSize();
         int pointer_x = 0;
         int pointer_y = 0;
         int pointer_z = 0;
         Container z = new Container("z", size_x + size_y);
-        while ((pointer_x < size_x-1) || (pointer_y < size_y-1)) {
-            if (x.get(pointer_x).getValue() > y.get(pointer_y).getValue()) {
+        z.setDelay(0);
+        while (!(pointer_x >= size_x) && !(pointer_y >= size_y)) {
+            if (x.get(pointer_x).getValue() < y.get(pointer_y).getValue()) {
                 z.set(pointer_z, x.get(pointer_x));
                 pointer_x ++;
             } else {
-                z.set(pointer_z, y.get(pointer_x));
+                z.set(pointer_z, y.get(pointer_y));
                 pointer_y ++;
             }
             pointer_z ++;
         }
-        if (pointer_x <= size_x) {
-            z = append(z, y, pointer_z, pointer_y);
-        } else {
-            z = append(z, x, pointer_z, pointer_x);
+        while (pointer_x < size_x) {
+            z.set(pointer_z, x.get(pointer_x));
+            pointer_z++;
+            pointer_x++;
+        }
+
+        while (pointer_y < size_y) {
+            z.set(pointer_z, y.get(pointer_y));
+            pointer_z++;
+            pointer_y++;
         }
         return z;
     }

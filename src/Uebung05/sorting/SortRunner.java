@@ -44,7 +44,8 @@ public class SortRunner implements Runnable {
         //new SortRunner(new InsertionSort(), 20, 40);
 		//new SortRunner(new HeapSort(), 20, 40);
 		//new SortRunner(new QuickSort(), 20, 40);
-		new SortRunner(new MergeSort(), 20, 40);
+		//new SortRunner(new MergeSort(), 20, 40);
+		new SortRunner(new MergeSort(), 20, 0);
 	}
 
 

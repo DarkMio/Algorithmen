@@ -21,6 +21,11 @@ public class SortingObject {
 		b = rand.nextInt((int)p);
 		e = rand.nextInt((int)p);
 	}
+
+	public SortingObject(int b, int e) {
+		this.b = b;
+		this.e = e;
+	}
 	
 	
 	private static long f(long x, long r) {
