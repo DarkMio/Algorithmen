@@ -30,8 +30,7 @@ public class MergeSort extends SortingAlgorithm {
         y.set(y.getSize()-1, s.get(s.getSize() - 1));
         x = mergeSort(x);
         y = mergeSort(y);
-        s = merge(x, y);
-        return s;
+        return merge(x, y);
     }
 
     private Container merge(Container x, Container y) {
@@ -42,7 +41,7 @@ public class MergeSort extends SortingAlgorithm {
         int pointer_z = 0;
         Container z = new Container("z", size_x + size_y);
         z.setDelay(0);
-        while (!(pointer_x >= size_x) && !(pointer_y >= size_y)) {
+        while (pointer_x < size_x && pointer_y < size_y) {
             if (x.get(pointer_x).getValue() < y.get(pointer_y).getValue()) {
                 z.set(pointer_z, x.get(pointer_x));
                 pointer_x ++;
@@ -52,23 +51,16 @@ public class MergeSort extends SortingAlgorithm {
             }
             pointer_z ++;
         }
+
         while (pointer_x < size_x) {
             z.set(pointer_z, x.get(pointer_x));
             pointer_z++;
             pointer_x++;
         }
-
         while (pointer_y < size_y) {
             z.set(pointer_z, y.get(pointer_y));
             pointer_z++;
             pointer_y++;
-        }
-        return z;
-    }
-
-    private Container append(Container z, Container xy, int pointer_z, int pointer_xy) {
-        for(int i = pointer_z, j = pointer_xy; i < xy.getSize()-1; i++, j++) {
-            z.set(i, xy.get(j));
         }
         return z;
     }
