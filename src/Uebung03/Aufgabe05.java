@@ -8,6 +8,6 @@ public class Aufgabe05 {
         int width = 800;
         int height = 600;
         ViewPort vp = new ViewPort("ColorCloud", width, height);
-        vp.fill(10, 10, width-10, height-10);
+        vp.fillAlt(10, 10, width-10, height-10);
     }
 }
