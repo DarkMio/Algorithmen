@@ -1,9 +1,6 @@
 package Uebung05.sorting;
 
-import Uebung05.sorting.algorithms.BubbleSort;
-import Uebung05.sorting.algorithms.InsertionSort;
-import Uebung05.sorting.algorithms.MergeSort;
-import Uebung05.sorting.algorithms.QuickSort;
+import Uebung05.sorting.algorithms.*;
 // import Uebung05.sorting.algorithms.HeapSort;
 // import Uebung05.sorting.algorithms.InsertionSort;
 // import Uebung05.sorting.algorithms.MergeSort;
@@ -40,13 +37,11 @@ public class SortRunner implements Runnable {
 	
 	
 	public static void main(String[] a) {
-		//new SortRunner(new BubbleSort(), 20, 40);
-        //new SortRunner(new InsertionSort(), 20, 40);
+		//new SortRunner(new BubbleSort(), 1900, 0);
+        //new SortRunner(new InsertionSort(), 1900, 0);
 		//new SortRunner(new HeapSort(), 20, 40);
-		//new SortRunner(new QuickSort(), 20, 40);
-		//new SortRunner(new MergeSort(), 20, 40);
-		new SortRunner(new MergeSort(), 20, 0);
+		new SortRunner(new QuickSort(), 450, 1);
+		//new SortRunner(new MergeSort(), 10, 40);
+		//new SortRunner(new MergeSortAlt(), 1900, 1);
 	}
-
-
 }
