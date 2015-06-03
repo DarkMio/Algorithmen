@@ -12,7 +12,9 @@ public class FlexibleArrayTest {
             System.out.println(fa.get(i));
         }
 
+        fa.compress();
         System.out.println(fa.usedSize() + " " + fa.completeSize());
+
 
     }
 }

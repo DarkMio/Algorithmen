@@ -1,20 +1,16 @@
 package Uebung07.flexiblearray;
 
-import java.util.Objects;
-
 public class FlexibleArray {
 
     protected Object[] data;
-    protected int dataCount;
+    protected int dataCount = 0;
 
     public FlexibleArray() {
         data = new Object[10];
-        dataCount = 0;
     }
 
     public FlexibleArray(int size) {
         data = new Object[size];
-        dataCount = 0;
     }
 
     public void put(int index, Object o) {
@@ -33,9 +29,9 @@ public class FlexibleArray {
     }
 
     public Object remove(int index) {
+        if (data[index] != null) dataCount--;
         Object cache = data[index];
         data[index] = null;
-        if (cache != null) dataCount--;
         return cache;
     }
 
@@ -53,8 +49,8 @@ public class FlexibleArray {
 
     public void compress() {
         Object[] array = new Object[dataCount];
-        for(int i = 0, j = 0; i <= data.length; i++) {
-            if (!(data[i] == null)) {
+        for(int i = 0, j = 0; i < data.length; i++) {
+            if (data[i] != null) {
                 array[j] = data[i];
                 j++;
             }
