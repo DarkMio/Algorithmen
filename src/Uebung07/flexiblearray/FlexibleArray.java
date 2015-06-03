@@ -21,11 +21,8 @@ public class FlexibleArray {
             System.arraycopy(data, 0, cache, 0, data.length);
             data = cache;
         }
-
-        Object cache = data[index];
+        if (data[index] == null) dataCount++;
         data[index] = o;
-
-        if (cache == null) dataCount++;
     }
 
     public Object remove(int index) {
