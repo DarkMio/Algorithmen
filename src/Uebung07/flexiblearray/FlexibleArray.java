@@ -16,7 +16,7 @@ public class FlexibleArray {
     public void put(int index, Object o) {
         if (index < 0) throw new IndexOutOfBoundsException("index (" + index + ")can't be negative");
         if (o == null) throw new NullPointerException("o cannot be null.");
-        if (index >= (data.length )) {
+        if (index >= (data.length)) {
             Object[] cache = new Object[dataCount*2];
             System.arraycopy(data, 0, cache, 0, data.length);
             data = cache;

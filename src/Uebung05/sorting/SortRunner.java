@@ -39,8 +39,8 @@ public class SortRunner implements Runnable {
 	public static void main(String[] a) {
 		//new SortRunner(new BubbleSort(), 1900, 0);
         //new SortRunner(new InsertionSort(), 1900, 0);
-		//new SortRunner(new HeapSort(), 20, 40);
-		new SortRunner(new QuickSort(), 450, 1);
+		new SortRunner(new HeapSort(), 20, 1);
+		// new SortRunner(new QuickSort(), 450, 1);
 		//new SortRunner(new MergeSort(), 10, 40);
 		//new SortRunner(new MergeSortAlt(), 1900, 1);
 	}
