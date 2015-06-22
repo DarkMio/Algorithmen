@@ -72,7 +72,6 @@ public class HashArrayVisual {
     private int getIndex(int key, int i) {
         i += 1;
         BigInteger x = new BigInteger(""+array.length()/2);
-
         return (key+x.nextProbablePrime().intValue()*i)%array.length();
     }
 }

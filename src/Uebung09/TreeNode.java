@@ -96,9 +96,8 @@ public class TreeNode extends AbstractTreeNode {
     @Override
     public AbstractTreeNode[] delete(int key) {
         AbstractTreeNode deletable = search(key);
-        AbstractTreeNode[] cache = new AbstractTreeNode[]{deletable.getParent(), deletable};
-        deletable.remove();
-        return cache;
+        if(deletable != null) deletable = deletable.getMinimumNodeInSubTree();
+        return new AbstractTreeNode[]{this.getRoot(), deletable};
     }
 
     @Override

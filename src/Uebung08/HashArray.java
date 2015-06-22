@@ -15,11 +15,9 @@ public class HashArray {
     }
 
     public void enlarge() {
-        Keyable[] cache = new Keyable[array.length*2];
-        for(Keyable k: array) {
-                put(k);
-            }
-        array = cache;
+        HashArray cache = new HashArray(array.length*2);
+        for(Keyable k: array) cache.put(k);
+        this.array = cache.array;
     }
 
     public void put(Keyable k) {
@@ -33,7 +31,6 @@ public class HashArray {
         }
         enlarge();
         put(k);
-
     }
 
     public boolean contains(Keyable k) {
